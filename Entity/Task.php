@@ -6,12 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Notification
+ * Task
  *
- * @ORM\Table(name="crv_ntb_notifications")
- * @ORM\Entity(repositoryClass="Creavo\NotifyTaskBundle\Repository\NotificationRepository")
+ * @ORM\Table(name="crv_ntb_tasks")
+ * @ORM\Entity(repositoryClass="Creavo\NotifyTaskBundle\Repository\TaskRepository")
  */
-class Notification
+class Task
 {
     /**
      * @var int
@@ -39,23 +39,23 @@ class Notification
     /**
      * @var bool
      *
-     * @ORM\Column(name="sent", type="boolean")
+     * @ORM\Column(name="done", type="boolean")
      */
-    private $sent=false;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="read", type="boolean")
-     */
-    private $read=false;
+    private $done=false;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(name="createdAt", type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deadline", type="datetime", nullable=true)
+     */
+    private $deadline;
 
     /**
      * @var \AppBundle\Entity\User
@@ -65,11 +65,11 @@ class Notification
     private $user;
 
     /**
-     * @var NotificationRelation[]
+     * @var TaskRelation[]
      *
-     * @ORM\OneToMany(targetEntity="Creavo\NotifyTaskBundle\Entity\NotificationRelation", mappedBy="notification")
+     * @ORM\OneToMany(targetEntity="Creavo\NotifyTaskBundle\Entity\TaskRelation", mappedBy="task")
      */
-    private $notificationRelations;
+    private $taskRelations;
 
     /**
      * @var string
@@ -86,13 +86,12 @@ class Notification
     private $linkRouteParams;
 
 
-    public function __construct() {
+    public function __construct(){
         $this->createdAt=new \DateTime('now');
-        $this->notificationRelations=new ArrayCollection();
+        $this->taskRelations=new ArrayCollection();
     }
 
-    public function getId()
-    {
+    public function getId(){
         return $this->id;
     }
 
@@ -114,26 +113,13 @@ class Notification
         return $this->message;
     }
 
-    public function setSent($sent){
-        $this->sent = $sent;
+    public function setDone($done){
+        $this->done = $done;
         return $this;
     }
 
-    public function getSent(){
-        return $this->sent;
-    }
-
-    public function isRead(){
-        return $this->read;
-    }
-
-    public function setRead($read){
-        $this->read = $read;
-        return $this;
-    }
-
-    public function getCreatedAt(){
-        return $this->createdAt;
+    public function getDone(){
+        return $this->done;
     }
 
     public function setCreatedAt($createdAt){
@@ -141,30 +127,39 @@ class Notification
         return $this;
     }
 
-    public function getUser(){
-        return $this->user;
+    public function getCreatedAt(){
+        return $this->createdAt;
     }
 
-    public function setUser(\AppBundle\Entity\User $user){
+    public function setDeadline($deadline){
+        $this->deadline = $deadline;
+        return $this;
+    }
+
+    public function getDeadline(){
+        return $this->deadline;
+    }
+
+    public function addTaskRelation(\Creavo\NotifyTaskBundle\Entity\TaskRelation $taskRelation){
+        $this->taskRelations[] = $taskRelation;
+        return $this;
+    }
+
+    public function removeTaskRelation(\Creavo\NotifyTaskBundle\Entity\TaskRelation $taskRelation){
+        $this->taskRelations->removeElement($taskRelation);
+    }
+
+    public function getTaskRelations(){
+        return $this->taskRelations;
+    }
+
+    public function setUser(\AppBundle\Entity\User $user = null){
         $this->user = $user;
         return $this;
     }
 
-    public function getRead(){
-        return $this->read;
-    }
-
-    public function addNotificationRelation(\Creavo\NotifyTaskBundle\Entity\NotificationRelation $notificationRelation){
-        $this->notificationRelations[] = $notificationRelation;
-        return $this;
-    }
-
-    public function removeNotificationRelation(\Creavo\NotifyTaskBundle\Entity\NotificationRelation $notificationRelation){
-        $this->notificationRelations->removeElement($notificationRelation);
-    }
-
-    public function getNotificationRelations(){
-        return $this->notificationRelations;
+    public function getUser(){
+        return $this->user;
     }
 
     public function setLinkRoute($linkRoute){

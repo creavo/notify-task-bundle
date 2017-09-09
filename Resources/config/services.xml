@@ -4,13 +4,15 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
+
     <services>
-        <service id="creavo_notify_task.example" class="Creavo\NotifyTaskBundle\Example">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="creavo_notify_task.notification" class="Creavo\NotifyTaskBundle\Provider\NotificationProvider">
+            <argument type="service" id="doctrine" />
+        </service>
+
+        <service id="creavo_notify_task.task" class="Creavo\NotifyTaskBundle\Provider\TaskProvider">
+            <argument type="service" id="doctrine" />
         </service>
     </services>
-    -->
+
 </container>
