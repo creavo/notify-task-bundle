@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Creavo\\NotifyTaskBundle": ""
+      "Creavo\\NotifyTaskBundle\\": ""
     }
   },
   "extra": {
