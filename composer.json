@@ -1,5 +1,5 @@
 {
-  "name": "creavo/task-notify-bundle",
+  "name": "creavo/notify-task-bundle",
   "description": "A bundle to manage tasks and notifications",
   "type": "symfony-bundle",
   "authors": [
