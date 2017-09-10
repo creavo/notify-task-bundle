@@ -100,6 +100,11 @@ class Task implements NotifyTaskInterface
         $this->taskRelations=new ArrayCollection();
     }
 
+    public function setLink($routeName,$routeParameters=[]) {
+        $this->setLinkRoute($routeName);
+        $this->setLinkRouteParams($routeParameters);
+    }
+
     public function getId(){
         return $this->id;
     }

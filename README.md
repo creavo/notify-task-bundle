@@ -23,3 +23,9 @@ add to your `config.yml`:
     creavo_notify_task:
         pushover_api_token: YOUR_PUSHOVER_APP_TOKEN
  
+### usage
+
+create notification:
+    
+    $this->get('creavo_notify_task.notification')->createNotification($user, 'this is the message', 'optional title', $relatedEntity);
+    

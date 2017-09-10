@@ -100,8 +100,12 @@ class Notification implements NotifyTaskInterface
         $this->notificationRelations=new ArrayCollection();
     }
 
-    public function getId()
-    {
+    public function setLink($routeName,$routeParameters=[]) {
+        $this->setLinkRoute($routeName);
+        $this->setLinkRouteParams($routeParameters);
+    }
+
+    public function getId(){
         return $this->id;
     }
 
