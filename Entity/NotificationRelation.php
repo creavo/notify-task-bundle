@@ -39,9 +39,9 @@ class NotificationRelation
      * @var Notification
      *
      * @ORM\ManyToOne(targetEntity="Creavo\NotifyTaskBundle\Entity\Notification", inversedBy="notificationRelations")
+     * @ORM\JoinColumn(name="notification_id", onDelete="CASCADE")
      */
     private $notification;
-
 
 
     public function __construct() {

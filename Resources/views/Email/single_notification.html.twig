@@ -1,0 +1,18 @@
+
+{% if notifyTask.title %}
+    <h2>{{ notifyTask.title }}</h2>
+{% endif %}
+
+<p>{{ notifyTask.message }}</p>
+
+{% if notifyTask.linkRoute %}
+    <p>
+        <a href="{{ url(notifyTask.linkRoute,notifyTask.linkRouteParams) }}">
+            {% if notifyTask.linkTitle %}
+                {{ notifyTask.linkTitle }}
+            {% else %}
+                {{ url(notifyTask.linkRoute,notifyTask.linkRouteParams) }}
+            {% endif %}
+        </a>
+    </p>
+{% endif %}

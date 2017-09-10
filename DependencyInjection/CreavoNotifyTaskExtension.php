@@ -30,6 +30,9 @@ class CreavoNotifyTaskExtension extends Extension
         $def=$container->getDefinition('creavo_notify_task.transport.pushover');
         $def->replaceArgument(0,$config['pushover_api_token']);
 
+        $def=$container->getDefinition('creavo_notify_task.transport.email');
+        $def->replaceArgument(0,$config);
+
         $def=$container->getDefinition('creavo_notify_task.notification');
         $def->replaceArgument(0,$config);
 

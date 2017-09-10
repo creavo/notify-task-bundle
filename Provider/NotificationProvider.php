@@ -12,8 +12,10 @@ class NotificationProvider {
     /** @var \Doctrine\Common\Persistence\ObjectManager */
     protected $em;
 
+    /** @var array */
     protected $config;
 
+    /** @var Dispatcher */
     protected $dispatcher;
 
     public function __construct(array $config, Registry $registry, Dispatcher $dispatcher) {
@@ -34,13 +36,11 @@ class NotificationProvider {
         $notification->setUser($user);
         $notification->setLinkRoute($linkRoute);
         $notification->setLinkRouteParams($linkRouteParams);
-        //$this->em->persist($notification);
 
         foreach($relations AS $relation) {
             $notificationRelation=Helper::objectToNotificationRelation($relation);
             $notificationRelation->setNotification($notification);
             $notification->addNotificationRelation($notificationRelation);
-            //$this->em->persist($notificationRelation);
         }
 
         if($flush) {
@@ -54,12 +54,22 @@ class NotificationProvider {
 
         $this->em->persist($notification);
 
+        foreach($notification->getNotificationRelations() AS $notificationRelation) {
+            $this->em->persist($notificationRelation);
+        }
+
         if($this->config['send_notification_immediately']===true) {
             $this->dispatcher->sendNotification($notification);
             $notification->setSent(true);
         }
 
         $this->em->flush();
+    }
+
+    public function saveNotifications(array $notifications) {
+        foreach($notifications AS $notification) {
+            $this->saveNotification($notification);
+        }
     }
 
     public function setAllNotificationsRead(User $user) {

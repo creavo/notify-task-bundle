@@ -4,7 +4,6 @@ namespace Creavo\NotifyTaskBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Creavo\NotifyTaskBundle\Interfaces\NotifyTaskInterface;
 
 /**
  * Notification
@@ -12,7 +11,7 @@ use Creavo\NotifyTaskBundle\Interfaces\NotifyTaskInterface;
  * @ORM\Table(name="crv_ntb_notifications")
  * @ORM\Entity(repositoryClass="Creavo\NotifyTaskBundle\Repository\NotificationRepository")
  */
-class Notification implements NotifyTaskInterface
+class Notification extends NotifyTask
 {
 
     /**
@@ -23,20 +22,6 @@ class Notification implements NotifyTaskInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255, nullable=true)
-     */
-    private $title;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="message", type="string", length=2048)
-     */
-    private $message;
 
     /**
      * @var bool
@@ -53,86 +38,29 @@ class Notification implements NotifyTaskInterface
     private $read;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at", type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @var \AppBundle\Entity\User
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-     */
-    private $user;
-
-    /**
      * @var NotificationRelation[]
      *
      * @ORM\OneToMany(targetEntity="Creavo\NotifyTaskBundle\Entity\NotificationRelation", mappedBy="notification")
      */
     private $notificationRelations;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="link_route", type="string", length=255, nullable=true)
-     */
-    private $linkRoute;
-
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="link_route_params", type="json_array", nullable=true)
-     */
-    private $linkRouteParams;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="link_title", type="string", length=255, nullable=true)
-     */
-    private $linkTitle;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="priority", type="smallint")
-     */
-    private $priority=self::PRIORITY_MIDDLE;
-
-
     public function __construct() {
-        $this->createdAt=new \DateTime('now');
-        $this->notificationRelations=new ArrayCollection();
-    }
+        parent::__construct();
 
-    public function setLink($routeName,$routeParameters=[],$title=null) {
-        $this->setLinkRoute($routeName);
-        $this->setLinkRouteParams($routeParameters);
-        $this->setLinkTitle($title);
+        $this->notificationRelations=new ArrayCollection();
     }
 
     public function getId(){
         return $this->id;
     }
 
-    public function setTitle($title){
-        $this->title = $title;
+    public function setId($id){
+        $this->id = $id;
         return $this;
     }
 
-    public function getTitle(){
-        return $this->title;
-    }
-
-    public function setMessage($message){
-        $this->message = $message;
-        return $this;
-    }
-
-    public function getMessage(){
-        return $this->message;
+    public function isSent(){
+        return $this->sent;
     }
 
     public function setSent($sent){
@@ -140,39 +68,17 @@ class Notification implements NotifyTaskInterface
         return $this;
     }
 
-    public function getSent(){
-        return $this->sent;
-    }
-
-    public function isRead(){
+    public function getRead(){
         return $this->read;
     }
 
-    public function setRead(\DateTime $read=null){
+    public function setRead($read){
         $this->read = $read;
         return $this;
     }
 
-    public function getCreatedAt(){
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTime $createdAt){
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getUser(){
-        return $this->user;
-    }
-
-    public function setUser(\AppBundle\Entity\User $user){
-        $this->user = $user;
-        return $this;
-    }
-
-    public function getRead(){
-        return $this->read;
+    public function getSent(){
+        return $this->sent;
     }
 
     public function addNotificationRelation(\Creavo\NotifyTaskBundle\Entity\NotificationRelation $notificationRelation){
@@ -187,42 +93,4 @@ class Notification implements NotifyTaskInterface
     public function getNotificationRelations(){
         return $this->notificationRelations;
     }
-
-    public function setLinkRoute($linkRoute){
-        $this->linkRoute = $linkRoute;
-        return $this;
-    }
-
-    public function getLinkRoute(){
-        return $this->linkRoute;
-    }
-
-    public function setLinkRouteParams($linkRouteParams){
-        $this->linkRouteParams = $linkRouteParams;
-        return $this;
-    }
-
-    public function getLinkRouteParams(){
-        return $this->linkRouteParams;
-    }
-
-    public function getPriority(){
-        return $this->priority;
-    }
-
-    public function setPriority($priority){
-        $this->priority = $priority;
-        return $this;
-    }
-
-    public function getLinkTitle(){
-        return $this->linkTitle;
-    }
-
-    public function setLinkTitle($linkTitle){
-        $this->linkTitle = $linkTitle;
-        return $this;
-    }
-
-
 }

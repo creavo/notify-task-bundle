@@ -31,6 +31,8 @@ add to your `config.yml` and adjust to your wishes:
         pushover_enabled: false
         pushover_api_token: YOUR_PUSHOVER_APP_TOKEN
         email_enabled: false
+        email_from: symfony@localhost
+        email_subject: new notification
  
 ### usage
 

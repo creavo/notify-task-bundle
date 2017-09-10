@@ -23,6 +23,10 @@ class PushOverTransport implements TransportInterface {
             return;
         }
 
+        if(!$user->getPushoverKey()) {
+            return;
+        }
+
         if(!$this->apiToken) {
             return;
         }

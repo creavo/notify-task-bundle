@@ -1,0 +1,14 @@
+
+{%- if notifyTask.title -%}
+##########################################
+{{ notifyTask.title }}
+##########################################
+{%- endif -%}
+
+{{ notifyTask.message }}
+
+##########################################
+
+{% if notifyTask.linkRoute -%}
+    {{- url(notifyTask.linkRoute,notifyTask.linkRouteParams) -}}
+{%- endif -%}

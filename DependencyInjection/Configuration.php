@@ -26,7 +26,8 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('pushover_enabled')->defaultFalse()->end()
                 ->scalarNode('pushover_api_token')->defaultNull()->end()
                 ->booleanNode('email_enabled')->defaultFalse()->end()
-
+                ->scalarNode('email_from')->defaultValue('symfony@localhost')->end()
+                ->scalarNode('email_subject')->defaultValue('new notification')->end()
             ->end()
         ;
 

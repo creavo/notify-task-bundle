@@ -12,7 +12,7 @@ use Creavo\NotifyTaskBundle\Interfaces\NotifyTaskInterface;
  * @ORM\Table(name="crv_ntb_tasks")
  * @ORM\Entity(repositoryClass="Creavo\NotifyTaskBundle\Repository\TaskRepository")
  */
-class Task implements NotifyTaskInterface
+class Task extends NotifyTask
 {
 
     /**
@@ -25,46 +25,11 @@ class Task implements NotifyTaskInterface
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255, nullable=true)
-     */
-    private $title;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="message", type="string", length=2048)
-     */
-    private $message;
-
-    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="done", type="datetime", nullable=true)
+     * @ORM\Column(name="notify_after", type="datetime", nullable=true)
      */
-    private $done;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="createdAt", type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="deadline", type="datetime", nullable=true)
-     */
-    private $deadline;
-
-    /**
-     * @var \AppBundle\Entity\User
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-     */
-    private $user;
+    private $notifyAfter;
 
     /**
      * @var TaskRelation[]
@@ -73,93 +38,29 @@ class Task implements NotifyTaskInterface
      */
     private $taskRelations;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="link_route", type="string", length=255, nullable=true)
-     */
-    private $linkRoute;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="link_route_params", type="json_array", nullable=true)
-     */
-    private $linkRouteParams;
+    public function __construct() {
+        parent::__construct();
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="link_title", type="string", length=255, nullable=true)
-     */
-    private $linkTitle;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="priority", type="smallint")
-     */
-    private $priority=self::PRIORITY_MIDDLE;
-
-
-    public function __construct(){
-        $this->createdAt=new \DateTime('now');
         $this->taskRelations=new ArrayCollection();
-    }
-
-    public function setLink($routeName,$routeParameters=[],$title=null) {
-        $this->setLinkRoute($routeName);
-        $this->setLinkRouteParams($routeParameters);
-        $this->setLinkTitle($title);
     }
 
     public function getId(){
         return $this->id;
     }
 
-    public function setTitle($title){
-        $this->title = $title;
+    public function setId($id){
+        $this->id = $id;
         return $this;
     }
 
-    public function getTitle(){
-        return $this->title;
+    public function getNotifyAfter(){
+        return $this->notifyAfter;
     }
 
-    public function setMessage($message){
-        $this->message = $message;
+    public function setNotifyAfter($notifyAfter){
+        $this->notifyAfter = $notifyAfter;
         return $this;
-    }
-
-    public function getMessage(){
-        return $this->message;
-    }
-
-    public function setDone(\DateTime $done=null){
-        $this->done = $done;
-        return $this;
-    }
-
-    public function getDone(){
-        return $this->done;
-    }
-
-    public function setCreatedAt(\DateTime $createdAt){
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getCreatedAt(){
-        return $this->createdAt;
-    }
-
-    public function setDeadline($deadline){
-        $this->deadline = $deadline;
-        return $this;
-    }
-
-    public function getDeadline(){
-        return $this->deadline;
     }
 
     public function addTaskRelation(\Creavo\NotifyTaskBundle\Entity\TaskRelation $taskRelation){
@@ -173,50 +74,5 @@ class Task implements NotifyTaskInterface
 
     public function getTaskRelations(){
         return $this->taskRelations;
-    }
-
-    public function setUser(\AppBundle\Entity\User $user = null){
-        $this->user = $user;
-        return $this;
-    }
-
-    public function getUser(){
-        return $this->user;
-    }
-
-    public function setLinkRoute($linkRoute){
-        $this->linkRoute = $linkRoute;
-        return $this;
-    }
-
-    public function getLinkRoute(){
-        return $this->linkRoute;
-    }
-
-    public function setLinkRouteParams($linkRouteParams){
-        $this->linkRouteParams = $linkRouteParams;
-        return $this;
-    }
-
-    public function getLinkRouteParams(){
-        return $this->linkRouteParams;
-    }
-
-    public function getPriority(){
-        return $this->priority;
-    }
-
-    public function setPriority($priority){
-        $this->priority = $priority;
-        return $this;
-    }
-
-    public function getLinkTitle(){
-        return $this->linkTitle;
-    }
-
-    public function setLinkTitle($linkTitle){
-        $this->linkTitle = $linkTitle;
-        return $this;
     }
 }

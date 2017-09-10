@@ -6,26 +6,37 @@
 
 
     <services>
-        <service id="creavo_notify_task.notification" class="Creavo\NotifyTaskBundle\Provider\NotificationProvider">
-            <argument></argument>
+        <service id="crv.notification" alias="creavo_notify_task.notification"/>
+        <service id="crv.task" alias="creavo_notify_task.task"/>
+
+        <service id="creavo_notify_task.notification" class="Creavo\NotifyTaskBundle\Provider\NotificationProvider" public="false">
+            <argument></argument> <!-- config -->
             <argument type="service" id="doctrine" />
             <argument type="service" id="creavo_notify_task.transport.dispatcher" />
         </service>
 
-        <service id="creavo_notify_task.task" class="Creavo\NotifyTaskBundle\Provider\TaskProvider">
-            <argument></argument>
+        <service id="creavo_notify_task.task" class="Creavo\NotifyTaskBundle\Provider\TaskProvider" public="false">
+            <argument></argument> <!-- config -->
             <argument type="service" id="doctrine" />
             <argument type="service" id="creavo_notify_task.transport.dispatcher" />
         </service>
 
         <service id="creavo_notify_task.transport.pushover" class="Creavo\NotifyTaskBundle\Transport\PushOverTransport">
-            <argument></argument>
+            <argument></argument> <!-- config -->
             <argument type="service" id="router" />
         </service>
 
+        <service id="creavo_notify_task.transport.email" class="Creavo\NotifyTaskBundle\Transport\EmailTransport">
+            <argument></argument> <!-- config -->
+            <argument type="service" id="router" />
+            <argument type="service" id="mailer" />
+            <argument type="service" id="templating" />
+        </service>
+
         <service id="creavo_notify_task.transport.dispatcher" class="Creavo\NotifyTaskBundle\Transport\Dispatcher">
-            <argument></argument>
+            <argument></argument> <!-- config -->
             <argument type="service" id="creavo_notify_task.transport.pushover" />
+            <argument type="service" id="creavo_notify_task.transport.email" />
         </service>
     </services>
 

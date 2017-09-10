@@ -39,6 +39,7 @@ class TaskRelation
      * @var Task
      *
      * @ORM\ManyToOne(targetEntity="Creavo\NotifyTaskBundle\Entity\Task", inversedBy="taskRelations")
+     * @ORM\JoinColumn(name="task_id", onDelete="CASCADE")
      */
     private $task;
 
