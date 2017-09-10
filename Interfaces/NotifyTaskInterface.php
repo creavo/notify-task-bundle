@@ -15,5 +15,6 @@ interface NotifyTaskInterface {
     public function getPriority();
     public function getLinkRoute();
     public function getLinkRouteParams();
+    public function getLinkTitle();
 
 }

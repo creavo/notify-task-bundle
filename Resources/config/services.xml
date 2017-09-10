@@ -7,16 +7,25 @@
 
     <services>
         <service id="creavo_notify_task.notification" class="Creavo\NotifyTaskBundle\Provider\NotificationProvider">
+            <argument></argument>
             <argument type="service" id="doctrine" />
+            <argument type="service" id="creavo_notify_task.transport.dispatcher" />
         </service>
 
         <service id="creavo_notify_task.task" class="Creavo\NotifyTaskBundle\Provider\TaskProvider">
+            <argument></argument>
             <argument type="service" id="doctrine" />
+            <argument type="service" id="creavo_notify_task.transport.dispatcher" />
         </service>
 
         <service id="creavo_notify_task.transport.pushover" class="Creavo\NotifyTaskBundle\Transport\PushOverTransport">
-            <argument type="service" id="router" />
             <argument></argument>
+            <argument type="service" id="router" />
+        </service>
+
+        <service id="creavo_notify_task.transport.dispatcher" class="Creavo\NotifyTaskBundle\Transport\Dispatcher">
+            <argument></argument>
+            <argument type="service" id="creavo_notify_task.transport.pushover" />
         </service>
     </services>
 

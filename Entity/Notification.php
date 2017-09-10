@@ -41,14 +41,14 @@ class Notification implements NotifyTaskInterface
     /**
      * @var bool
      *
-     * @ORM\Column(name="sent", type="boolean")
+     * @ORM\Column(name="is_sent", type="boolean")
      */
     private $sent=false;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="read", type="datetime", nullable=true)
+     * @ORM\Column(name="is_read", type="datetime", nullable=true)
      */
     private $read;
 
@@ -88,6 +88,13 @@ class Notification implements NotifyTaskInterface
     private $linkRouteParams;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="link_title", type="string", length=255, nullable=true)
+     */
+    private $linkTitle;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="priority", type="smallint")
@@ -100,9 +107,10 @@ class Notification implements NotifyTaskInterface
         $this->notificationRelations=new ArrayCollection();
     }
 
-    public function setLink($routeName,$routeParameters=[]) {
+    public function setLink($routeName,$routeParameters=[],$title=null) {
         $this->setLinkRoute($routeName);
         $this->setLinkRouteParams($routeParameters);
+        $this->setLinkTitle($title);
     }
 
     public function getId(){
@@ -204,6 +212,15 @@ class Notification implements NotifyTaskInterface
 
     public function setPriority($priority){
         $this->priority = $priority;
+        return $this;
+    }
+
+    public function getLinkTitle(){
+        return $this->linkTitle;
+    }
+
+    public function setLinkTitle($linkTitle){
+        $this->linkTitle = $linkTitle;
         return $this;
     }
 

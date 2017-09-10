@@ -11,7 +11,7 @@ class PushOverTransport implements TransportInterface {
     protected $router;
     protected $apiToken;
 
-    public function __construct(Router $router, $apiToken) {
+    public function __construct($apiToken, Router $router) {
         $this->router=$router;
         $this->apiToken=$apiToken;
     }
@@ -20,6 +20,10 @@ class PushOverTransport implements TransportInterface {
 
         $user=$notifyTask->getUser();
         if(!method_exists($user,'getPushoverKey')) {
+            return;
+        }
+
+        if(!$this->apiToken) {
             return;
         }
 
@@ -32,6 +36,9 @@ class PushOverTransport implements TransportInterface {
 
         if($notifyTask->getLinkRoute()) {
             $data['url']=$this->router->generate($notifyTask->getLinkRoute(),$notifyTask->getLinkRouteParams(),Router::ABSOLUTE_URL);
+        }
+        if($notifyTask->getLinkTitle()) {
+            $data['url_title']=$notifyTask->getLinkTitle();
         }
 
         $this->sendCurl($data);

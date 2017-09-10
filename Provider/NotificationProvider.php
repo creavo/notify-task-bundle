@@ -4,6 +4,7 @@ namespace Creavo\NotifyTaskBundle\Provider;
 
 use AppBundle\Entity\User;
 use Creavo\NotifyTaskBundle\Entity\Notification;
+use Creavo\NotifyTaskBundle\Transport\Dispatcher;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class NotificationProvider {
@@ -11,11 +12,17 @@ class NotificationProvider {
     /** @var \Doctrine\Common\Persistence\ObjectManager */
     protected $em;
 
-    public function __construct(Registry $registry) {
+    protected $config;
+
+    protected $dispatcher;
+
+    public function __construct(array $config, Registry $registry, Dispatcher $dispatcher) {
         $this->em=$registry->getManager();
+        $this->config=$config;
+        $this->dispatcher=$dispatcher;
     }
 
-    public function createNotification(User $user, $message, $title=null, $relations=[], $flush=true) {
+    public function createNotification(User $user, $message, $title=null, $relations=[], $linkRoute=null, $linkRouteParams=[], $flush=false) {
 
         if(!is_array($relations)) {
             $relations=[$relations];
@@ -25,20 +32,34 @@ class NotificationProvider {
         $notification->setTitle($title);
         $notification->setMessage($message);
         $notification->setUser($user);
-        $this->em->persist($notification);
+        $notification->setLinkRoute($linkRoute);
+        $notification->setLinkRouteParams($linkRouteParams);
+        //$this->em->persist($notification);
 
         foreach($relations AS $relation) {
             $notificationRelation=Helper::objectToNotificationRelation($relation);
             $notificationRelation->setNotification($notification);
             $notification->addNotificationRelation($notificationRelation);
-            $this->em->persist($notificationRelation);
+            //$this->em->persist($notificationRelation);
         }
 
         if($flush) {
-            $this->em->flush();
+            $this->saveNotification($notification);
         }
 
         return $notification;
+    }
+
+    public function saveNotification(Notification $notification) {
+
+        $this->em->persist($notification);
+
+        if($this->config['send_notification_immediately']===true) {
+            $this->dispatcher->sendNotification($notification);
+            $notification->setSent(true);
+        }
+
+        $this->em->flush();
     }
 
     public function setAllNotificationsRead(User $user) {

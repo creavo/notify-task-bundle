@@ -88,6 +88,13 @@ class Task implements NotifyTaskInterface
     private $linkRouteParams;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="link_title", type="string", length=255, nullable=true)
+     */
+    private $linkTitle;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="priority", type="smallint")
@@ -100,9 +107,10 @@ class Task implements NotifyTaskInterface
         $this->taskRelations=new ArrayCollection();
     }
 
-    public function setLink($routeName,$routeParameters=[]) {
+    public function setLink($routeName,$routeParameters=[],$title=null) {
         $this->setLinkRoute($routeName);
         $this->setLinkRouteParams($routeParameters);
+        $this->setLinkTitle($title);
     }
 
     public function getId(){
@@ -203,5 +211,12 @@ class Task implements NotifyTaskInterface
         return $this;
     }
 
+    public function getLinkTitle(){
+        return $this->linkTitle;
+    }
 
+    public function setLinkTitle($linkTitle){
+        $this->linkTitle = $linkTitle;
+        return $this;
+    }
 }

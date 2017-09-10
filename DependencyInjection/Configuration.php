@@ -22,7 +22,11 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->booleanNode('send_notification_immediately')->defaultFalse()->end()
+                ->booleanNode('pushover_enabled')->defaultFalse()->end()
                 ->scalarNode('pushover_api_token')->defaultNull()->end()
+                ->booleanNode('email_enabled')->defaultFalse()->end()
+
             ->end()
         ;
 
