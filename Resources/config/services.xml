@@ -13,6 +13,11 @@
         <service id="creavo_notify_task.task" class="Creavo\NotifyTaskBundle\Provider\TaskProvider">
             <argument type="service" id="doctrine" />
         </service>
+
+        <service id="creavo_notify_task.transport.pushover" class="Creavo\NotifyTaskBundle\Transport\PushOverTransport">
+            <argument type="service" id="router" />
+            <argument></argument>
+        </service>
     </services>
 
 </container>

@@ -15,7 +15,7 @@ class TaskProvider {
         $this->em=$registry->getManager();
     }
 
-    public function createTask(User $user, $title, $message=null, $relations=[], \DateTime $deadline=null, $flush=true) {
+    public function createTask(User $user, $message, $title=null, $relations=[], \DateTime $deadline=null, $flush=true) {
 
         if(!is_array($relations)) {
             $relations=[$relations];

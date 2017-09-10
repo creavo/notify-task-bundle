@@ -15,7 +15,7 @@ class NotificationProvider {
         $this->em=$registry->getManager();
     }
 
-    public function createNotification(User $user, $title, $message=null, $relations=[], $flush=true) {
+    public function createNotification(User $user, $message, $title=null, $relations=[], $flush=true) {
 
         if(!is_array($relations)) {
             $relations=[$relations];
@@ -39,6 +39,36 @@ class NotificationProvider {
         }
 
         return $notification;
+    }
+
+    public function setAllNotificationsRead(User $user) {
+        $this->em->getRepository('CreavoNotifyTaskBundle:Notification')->setAllNotificationsReadForUser($user);
+    }
+
+    public function setNotificationRead($objectOrId, $flush=true) {
+
+        /** @var Notification $notification */
+        $notification=$this->getNotificationEntity($objectOrId);
+
+        $notification->setRead(new \DateTime('now'));
+        $this->em->persist($notification);
+
+        if($flush) {
+            $this->em->flush();
+        }
+        return $notification;
+    }
+
+    protected function getNotificationEntity($notification) {
+        if($notification instanceof Notification) {
+            return $notification;
+        }
+
+        if($entity=$this->em->getRepository('CreavoNotifyTaskBundle:Notification')->find($notification)) {
+            return $entity;
+        }
+
+        throw new \Exception('cannot find notification');
     }
 
 

@@ -4,6 +4,7 @@ namespace Creavo\NotifyTaskBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Creavo\NotifyTaskBundle\Interfaces\NotifyTaskInterface;
 
 /**
  * Notification
@@ -11,8 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="crv_ntb_notifications")
  * @ORM\Entity(repositoryClass="Creavo\NotifyTaskBundle\Repository\NotificationRepository")
  */
-class Notification
+class Notification implements NotifyTaskInterface
 {
+
     /**
      * @var int
      *
@@ -25,14 +27,14 @@ class Notification
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="message", type="string", length=2048, nullable=true)
+     * @ORM\Column(name="message", type="string", length=2048)
      */
     private $message;
 
@@ -44,11 +46,11 @@ class Notification
     private $sent=false;
 
     /**
-     * @var bool
+     * @var \DateTime
      *
-     * @ORM\Column(name="read", type="boolean")
+     * @ORM\Column(name="read", type="datetime", nullable=true)
      */
-    private $read=false;
+    private $read;
 
     /**
      * @var \DateTime
@@ -84,6 +86,13 @@ class Notification
      * @ORM\Column(name="link_route_params", type="json_array", nullable=true)
      */
     private $linkRouteParams;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="priority", type="smallint")
+     */
+    private $priority=self::PRIORITY_MIDDLE;
 
 
     public function __construct() {
@@ -127,7 +136,7 @@ class Notification
         return $this->read;
     }
 
-    public function setRead($read){
+    public function setRead(\DateTime $read=null){
         $this->read = $read;
         return $this;
     }
@@ -136,7 +145,7 @@ class Notification
         return $this->createdAt;
     }
 
-    public function setCreatedAt($createdAt){
+    public function setCreatedAt(\DateTime $createdAt){
         $this->createdAt = $createdAt;
         return $this;
     }
@@ -184,4 +193,15 @@ class Notification
     public function getLinkRouteParams(){
         return $this->linkRouteParams;
     }
+
+    public function getPriority(){
+        return $this->priority;
+    }
+
+    public function setPriority($priority){
+        $this->priority = $priority;
+        return $this;
+    }
+
+
 }

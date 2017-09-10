@@ -4,6 +4,7 @@ namespace Creavo\NotifyTaskBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Creavo\NotifyTaskBundle\Interfaces\NotifyTaskInterface;
 
 /**
  * Task
@@ -11,8 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="crv_ntb_tasks")
  * @ORM\Entity(repositoryClass="Creavo\NotifyTaskBundle\Repository\TaskRepository")
  */
-class Task
+class Task implements NotifyTaskInterface
 {
+
     /**
      * @var int
      *
@@ -25,23 +27,23 @@ class Task
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="message", type="string", length=2048, nullable=true)
+     * @ORM\Column(name="message", type="string", length=2048)
      */
     private $message;
 
     /**
-     * @var bool
+     * @var \DateTime
      *
-     * @ORM\Column(name="done", type="boolean")
+     * @ORM\Column(name="done", type="datetime", nullable=true)
      */
-    private $done=false;
+    private $done;
 
     /**
      * @var \DateTime
@@ -85,6 +87,13 @@ class Task
      */
     private $linkRouteParams;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="priority", type="smallint")
+     */
+    private $priority=self::PRIORITY_MIDDLE;
+
 
     public function __construct(){
         $this->createdAt=new \DateTime('now');
@@ -113,7 +122,7 @@ class Task
         return $this->message;
     }
 
-    public function setDone($done){
+    public function setDone(\DateTime $done=null){
         $this->done = $done;
         return $this;
     }
@@ -122,7 +131,7 @@ class Task
         return $this->done;
     }
 
-    public function setCreatedAt($createdAt){
+    public function setCreatedAt(\DateTime $createdAt){
         $this->createdAt = $createdAt;
         return $this;
     }
@@ -179,4 +188,15 @@ class Task
     public function getLinkRouteParams(){
         return $this->linkRouteParams;
     }
+
+    public function getPriority(){
+        return $this->priority;
+    }
+
+    public function setPriority($priority){
+        $this->priority = $priority;
+        return $this;
+    }
+
+
 }
