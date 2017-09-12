@@ -50,6 +50,22 @@ class Notification extends NotifyTask
         $this->notificationRelations=new ArrayCollection();
     }
 
+    public function toArray() {
+        return [
+            'id'=>$this->getId(),
+            'title'=>$this->getTitle(),
+            'message'=>$this->getMessage(),
+            'createdAt'=>$this->getCreatedAt() ? $this->getCreatedAt()->format('Y-m-d H:i:s') : null,
+            'user'=>$this->getUser() ? $this->getUser()->getId() : null,
+            'linkRoute'=>$this->getLinkRoute(),
+            'linkRouteParams'=>$this->getLinkRouteParams(),
+            'linkTitle'=>$this->getLinkTitle(),
+            'priority'=>$this->getPriority(),
+            'sent'=>$this->getSent(),
+            'read'=>$this->read,
+        ];
+    }
+
     public function getId(){
         return $this->id;
     }
