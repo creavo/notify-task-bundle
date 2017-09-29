@@ -2,18 +2,7 @@
 
 ### Installation
 
-add the following to your composer.json:
-
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@bitbucket.org:creavo/notify-task-bundle.git"
-        }
-    ],
-
-then run:
-
-    composer require creavo/notify-task-bundle "dev-master"
+    composer require creavo/notify-task-bundle
     
 add bundle to your `app/AppKernel.php`:
 
