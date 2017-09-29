@@ -4,11 +4,15 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="creavo_notify_task_ajax_user_tasks" path="/ajax/user/{id}/tasks">
+    <route id="creavo_notify_task_ajax_user_tasks" path="/ajax/user/tasks">
         <default key="_controller">CreavoNotifyTaskBundle:Ajax:userTasks</default>
     </route>
 
-    <route id="creavo_notify_task_ajax_user_notifications" path="/ajax/user/{id}/notifications">
+    <route id="creavo_notify_task_ajax_user_notifications" path="/ajax/user/notifications">
         <default key="_controller">CreavoNotifyTaskBundle:Ajax:userNotifications</default>
+    </route>
+
+    <route id="creavo_notify_task_redirect_notification" path="/redirect/notification/{id}">
+        <default key="_controller">CreavoNotifyTaskBundle:Redirect:redirectNotification</default>
     </route>
 </routes>

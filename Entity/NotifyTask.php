@@ -77,6 +77,11 @@ class NotifyTask implements NotifyTaskInterface {
         $this->setLinkRoute($routeName);
         $this->setLinkRouteParams($routeParameters);
         $this->setLinkTitle($title);
+        return $this;
+    }
+
+    public function linkable() {
+        return $this->getLinkRoute() ? true : false;
     }
 
     public function getTitle(){
