@@ -15,4 +15,8 @@
     <route id="creavo_notify_task_redirect_notification" path="/redirect/notification/{id}">
         <default key="_controller">CreavoNotifyTaskBundle:Redirect:redirectNotification</default>
     </route>
+
+    <route id="creavo_notify_task_redirect_task" path="/redirect/task/{id}">
+        <default key="_controller">CreavoNotifyTaskBundle:Redirect:redirectTask</default>
+    </route>
 </routes>

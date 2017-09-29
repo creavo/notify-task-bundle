@@ -69,6 +69,20 @@ class NotifyTask implements NotifyTaskInterface {
      */
     private $priority=self::PRIORITY_MIDDLE;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="send_via_email", type="smallint")
+     */
+    private $sendViaEmail=self::SEND_STATUS_DO_NOT_SEND;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="send_via_push_over", type="smallint")
+     */
+    private $sendViaPushOver=self::SEND_STATUS_DO_NOT_SEND;
+
     public function __construct() {
         $this->createdAt=new \DateTime('now');
     }
@@ -82,6 +96,16 @@ class NotifyTask implements NotifyTaskInterface {
 
     public function linkable() {
         return $this->getLinkRoute() ? true : false;
+    }
+
+    public function sendViaEmail() {
+        $this->setSendViaEmail(self::SEND_STATUS_OPEN);
+        return $this;
+    }
+
+    public function sendViaPushOver() {
+        $this->setSendViaPushOver(self::SEND_STATUS_OPEN);
+        return $this;
     }
 
     public function getTitle(){
@@ -156,6 +180,23 @@ class NotifyTask implements NotifyTaskInterface {
         return $this;
     }
 
+    public function getSendViaEmail(){
+        return $this->sendViaEmail;
+    }
+
+    public function setSendViaEmail($sendViaEmail){
+        $this->sendViaEmail = $sendViaEmail;
+        return $this;
+    }
+
+    public function getSendViaPushOver(){
+        return $this->sendViaPushOver;
+    }
+
+    public function setSendViaPushOver($sendViaPushOver){
+        $this->sendViaPushOver = $sendViaPushOver;
+        return $this;
+    }
 
 
 }
