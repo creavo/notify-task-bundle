@@ -1,5 +1,8 @@
 # CREAVO TaskNotifyBundle
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/3837f1b6-1308-4b63-9b68-01e9458fa3bf/mini.png)](https://insight.sensiolabs.com/projects/3837f1b6-1308-4b63-9b68-01e9458fa3bf)
+[![Packagist](https://img.shields.io/packagist/dt/creavo/notify-task-bundle.svg)](https://packagist.org/packages/creavo/notify-task-bundle)
+
 ### Installation
 
     composer require creavo/notify-task-bundle
