@@ -24,7 +24,19 @@ class TaskProvider {
         $this->dispatcher=$dispatcher;
     }
 
-    public function createTask(User $user, $message, $title=null, $relations=[], $linkRoute=null, $linkRouteParams=[], $flush=false) {
+    /**
+     * creates a new task
+     *
+     * @param User $user
+     * @param $message
+     * @param null $title
+     * @param array $relations
+     * @param null $linkRoute
+     * @param array $linkRouteParams
+     * @param bool $flush
+     * @return Task
+     */
+    public function create(User $user, $message, $title=null, $relations=[], $linkRoute=null, $linkRouteParams=[], $flush=false) {
 
         if(!is_array($relations)) {
             $relations=[$relations];
@@ -44,28 +56,36 @@ class TaskProvider {
         }
 
         if($flush) {
-            $this->saveTask($task);
+            $this->save($task);
         }
 
         return $task;
     }
 
-    public function saveTask(Task $task) {
+    /**
+     * saves one or an array of tasks
+     *
+     * @param array|Task $tasks
+     * @return array
+     */
+    public function save($tasks=[]) {
 
-        $this->em->persist($task);
+        if(!is_array($tasks)) {
+            $tasks=[$tasks];
+        }
 
-        foreach($task->getTaskRelations() AS $taskRelation) {
-            $this->em->persist($taskRelation);
+        foreach($tasks AS $task) {
+            $this->em->persist($task);
+
+            foreach($task->getTaskRelations() AS $taskRelation) {
+                $this->em->persist($taskRelation);
+            }
         }
 
         $this->em->flush();
+        return $tasks;
     }
 
-    public function saveTasks(array $tasks) {
-        foreach($tasks AS $task) {
-            $this->saveTask($task);
-        }
-    }
 
 
 

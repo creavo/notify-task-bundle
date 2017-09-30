@@ -24,7 +24,20 @@ class NotificationProvider {
         $this->dispatcher=$dispatcher;
     }
 
-    public function createNotification(User $user, $message, $title=null, $relations=[], $linkRoute=null, $linkRouteParams=[], $flush=false) {
+    /**
+     * creates a notification
+     *
+     * @param User|array $user
+     * @param $message
+     * @param null $title
+     * @param array $relations
+     * @param null $linkRoute
+     * @param array $linkRouteParams
+     * @param bool $flush
+     * @throws \Exception
+     * @return Notification
+     */
+    public function create($user, $message, $title=null, $relations=[], $linkRoute=null, $linkRouteParams=[], $flush=false) {
 
         if(!is_array($relations)) {
             $relations=[$relations];
@@ -33,9 +46,16 @@ class NotificationProvider {
         $notification=new Notification();
         $notification->setTitle($title);
         $notification->setMessage($message);
-        $notification->setUser($user);
         $notification->setLinkRoute($linkRoute);
         $notification->setLinkRouteParams($linkRouteParams);
+
+        if($user instanceof User) {
+            $notification->setUser($user);
+        }elseif(is_array($user)) {
+            $notification->setUsers($user);
+        }else{
+            throw new \Exception('$user must be an instance of User or an array');
+        }
 
         foreach($relations AS $relation) {
             $notificationRelation=Helper::objectToNotificationRelation($relation);
@@ -44,39 +64,72 @@ class NotificationProvider {
         }
 
         if($flush) {
-            $this->saveNotification($notification);
+            $this->save($notification);
         }
 
         return $notification;
     }
 
-    public function saveNotification(Notification $notification) {
+    /**
+     * saves one or an array of notifications
+     *
+     * @param array|Notification $notifications
+     * @return array
+     */
+    public function save($notifications=[]) {
 
-        $this->em->persist($notification);
-
-        foreach($notification->getNotificationRelations() AS $notificationRelation) {
-            $this->em->persist($notificationRelation);
+        if(!is_array($notifications)) {
+            $notifications=[$notifications];
         }
 
-        if($this->config['send_notification_immediately']===true) {
-            $this->dispatcher->sendNotification($notification);
-            $notification->setSent(true);
+        /** @var Notification $notification */
+        foreach($notifications AS $notification) {
+
+            /** @var User $user */
+            foreach($notification->getUsers() AS $user) {
+                $n=clone $notification;
+                $n->setUser($user);
+                $n->setUsers([]);
+                $notifications[]=$n;
+            }
+        }
+
+        /** @var Notification $notification */
+        foreach($notifications AS $notification) {
+
+            $this->em->persist($notification);
+
+            foreach ($notification->getNotificationRelations() AS $notificationRelation) {
+                $this->em->persist($notificationRelation);
+            }
+
+            if ($this->config['send_notification_immediately'] === true) {
+                $this->dispatcher->sendNotification($notification);
+                $notification->setSent(true);
+            }
         }
 
         $this->em->flush();
+        return $notifications;
     }
 
-    public function saveNotifications(array $notifications) {
-        foreach($notifications AS $notification) {
-            $this->saveNotification($notification);
-        }
-    }
-
-    public function setAllNotificationsRead(User $user) {
+    /**
+     * mark all notifications as read for a given user
+     *
+     * @param User $user
+     */
+    public function setAllRead(User $user) {
         $this->em->getRepository('CreavoNotifyTaskBundle:Notification')->setAllNotificationsReadForUser($user);
     }
 
-    public function setNotificationRead($objectOrId, $flush=true) {
+    /**
+     * marks one notification as read, given the object or the ID
+     *
+     * @param $objectOrId
+     * @param bool $flush
+     * @return Notification
+     */
+    public function setRead($objectOrId, $flush=true) {
 
         /** @var Notification $notification */
         $notification=$this->getNotificationEntity($objectOrId);
@@ -90,6 +143,13 @@ class NotificationProvider {
         return $notification;
     }
 
+    /**
+     * returns a notification-object
+     *
+     * @param Notification|int $notification
+     * @return Notification
+     * @throws \Exception
+     */
     protected function getNotificationEntity($notification) {
         if($notification instanceof Notification) {
             return $notification;

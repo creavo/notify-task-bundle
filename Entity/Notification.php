@@ -2,6 +2,7 @@
 
 namespace Creavo\NotifyTaskBundle\Entity;
 
+use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -43,6 +44,11 @@ class Notification extends NotifyTask
      * @ORM\OneToMany(targetEntity="Creavo\NotifyTaskBundle\Entity\NotificationRelation", mappedBy="notification")
      */
     private $notificationRelations;
+
+    /**
+     * @var User[]
+     */
+    private $users=[];
 
     public function __construct() {
         parent::__construct();
@@ -109,4 +115,15 @@ class Notification extends NotifyTask
     public function getNotificationRelations(){
         return $this->notificationRelations;
     }
+
+    public function getUsers(){
+        return $this->users;
+    }
+
+    public function setUsers($users){
+        $this->users = $users;
+        return $this;
+    }
+
+
 }
