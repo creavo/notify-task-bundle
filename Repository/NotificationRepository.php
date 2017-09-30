@@ -49,4 +49,19 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository {
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function getLastNotificationsForUser(User $user, $limit) {
+
+        /** @var QueryBuilder $qb */
+        $qb=$this->createQueryBuilder('n');
+
+        $qb
+            ->andWhere('n.user = :user')
+            ->setParameter('user',$user)
+            ->andWhere('n.read IS NULL')
+            ->orderBy('n.createdAt','desc')
+            ->setMaxResults($limit);
+
+        return $qb;
+    }
+
 }

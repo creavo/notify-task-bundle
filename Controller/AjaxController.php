@@ -70,27 +70,14 @@ class AjaxController extends Controller {
             'lastDateTime'=>null,
         ];
 
-        /** @var QueryBuilder $qb */
-        $qb=$this->getDoctrine()->getRepository('CreavoNotifyTaskBundle:Notification')->createQueryBuilder('n');
-
-        $qb
-            ->andWhere('n.user = :user')
-            ->setParameter('user',$user)
-            ->andWhere('n.read IS NULL')
-            ->orderBy('n.createdAt','desc')
-            ->setMaxResults($limit);
-
+        $qb=$this->getDoctrine()->getRepository('CreavoNotifyTaskBundle:Notification')->getLastNotificationsForUser($user,$limit);
         $lastDateTime=null;
 
         /** @var Notification $notification */
         foreach($qb->getQuery()->getResult() AS $notification) {
             $array=$notification->toArray();
-            $array['directLink']=null;
-            $array['redirectLink']=null;
-            if($notification->linkable()) {
-                $array['directLink']=$this->generateUrl($notification->getLinkRoute(),$notification->getLinkRouteParams());
-                $array['redirectLink']=$this->generateUrl('creavo_notify_task_redirect_notification',['id'=>$notification->getId()]);
-            }
+            $array['directLink']=$notification->linkable() ? $this->generateUrl($notification->getLinkRoute(),$notification->getLinkRouteParams()) : null;
+            $array['redirectLink']=$notification->linkable() ? $this->generateUrl('creavo_notify_task_redirect_notification',['id'=>$notification->getId()]) : null;
             $data['items'][]=$array;
 
             if($lastDateTime<$notification->getCreatedAt()) {
