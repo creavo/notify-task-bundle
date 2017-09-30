@@ -45,7 +45,15 @@ class AjaxController extends Controller {
 
         /** @var Task $task */
         foreach($qb->getQuery()->getResult() AS $task) {
-            $data['items'][]=$task->toArray();
+            $array=$task->toArray();
+            $array['directLink']=null;
+            $array['redirectLink']=null;
+            if($task->linkable()) {
+                $array['directLink']=$this->generateUrl($task->getLinkRoute(),$task->getLinkRouteParams());
+                $array['redirectLink']=$this->generateUrl('creavo_notify_task_redirect_task',['id'=>$task->getId()]);
+            }
+
+            $data['items'][]=$array;
         }
 
         return new JsonResponse($data);
@@ -76,7 +84,14 @@ class AjaxController extends Controller {
 
         /** @var Notification $notification */
         foreach($qb->getQuery()->getResult() AS $notification) {
-            $data['items'][]=$notification->toArray();
+            $array=$notification->toArray();
+            $array['directLink']=null;
+            $array['redirectLink']=null;
+            if($notification->linkable()) {
+                $array['directLink']=$this->generateUrl($notification->getLinkRoute(),$notification->getLinkRouteParams());
+                $array['redirectLink']=$this->generateUrl('creavo_notify_task_redirect_notification',['id'=>$notification->getId()]);
+            }
+            $data['items'][]=$array;
 
             if($lastDateTime<$notification->getCreatedAt()) {
                 $lastDateTime=$notification->getCreatedAt();
