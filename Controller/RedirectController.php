@@ -20,7 +20,7 @@ class RedirectController extends Controller {
         }
 
         if(!$notification->getRead()) {
-            $notification->setRead(true);
+            $notification->setRead(new \DateTime('now'));
             $this->getDoctrine()->getManager()->persist($notification);
             $this->getDoctrine()->getManager()->flush();
         }

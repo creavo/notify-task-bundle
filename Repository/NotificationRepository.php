@@ -44,7 +44,7 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository {
             ->select('COUNT(n)')
             ->andWhere('n.user = :user')
             ->setParameter('user',$user)
-            ->andWhere('n.read = FALSE');
+            ->andWhere('n.read IS NULL');
 
         return $qb->getQuery()->getSingleScalarResult();
     }

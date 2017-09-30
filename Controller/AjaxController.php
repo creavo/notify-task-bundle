@@ -68,7 +68,7 @@ class AjaxController extends Controller {
         $qb
             ->andWhere('n.user = :user')
             ->setParameter('user',$user)
-            ->andWhere('n.read = FALSE')
+            ->andWhere('n.read IS NULL')
             ->orderBy('n.createdAt','desc')
             ->setMaxResults($limit);
 

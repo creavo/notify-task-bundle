@@ -94,7 +94,7 @@ class Notification extends NotifyTask
         return $this->read;
     }
 
-    public function setRead($read){
+    public function setRead(\DateTime $read=null){
         $this->read = $read;
         return $this;
     }
