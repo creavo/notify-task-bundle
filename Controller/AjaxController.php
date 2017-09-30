@@ -26,7 +26,11 @@ class AjaxController extends Controller {
     }
 
     public function userTasksAction(Request $request) {
-        $data=[];
+
+        $data=[
+            'total'>0,
+            'items'=>[],
+        ];
 
         $user=$this->getUser();
         $limit=$request->query->getInt('limit',10)<26 ? $request->query->getInt('limit',10) : 10;
@@ -41,17 +45,22 @@ class AjaxController extends Controller {
 
         /** @var Task $task */
         foreach($qb->getQuery()->getResult() AS $task) {
-            $data[]=$task->toArray();
+            $data['items'][]=$task->toArray();
         }
 
         return new JsonResponse($data);
     }
 
     public function userNotificationsAction(Request $request) {
-        $data=[];
 
         $user=$this->getUser();
         $limit=$request->query->getInt('limit',10)<26 ? $request->query->getInt('limit',10) : 10;
+
+        $data=[
+            'total'=>$this->getDoctrine()->getRepository('CreavoNotifyTaskBundle:Notification')->totalUnReadNotificationsForUser($user),
+            'items'=>[],
+            'lastDateTime'=>null,
+        ];
 
         /** @var QueryBuilder $qb */
         $qb=$this->getDoctrine()->getRepository('CreavoNotifyTaskBundle:Notification')->createQueryBuilder('n');
@@ -63,9 +72,19 @@ class AjaxController extends Controller {
             ->orderBy('n.createdAt','desc')
             ->setMaxResults($limit);
 
+        $lastDateTime=null;
+
         /** @var Notification $notification */
         foreach($qb->getQuery()->getResult() AS $notification) {
-            $data[]=$notification->toArray();
+            $data['items'][]=$notification->toArray();
+
+            if($lastDateTime<$notification->getCreatedAt()) {
+                $lastDateTime=$notification->getCreatedAt();
+            }
+        }
+
+        if($lastDateTime) {
+            $data['lastDateTime']=$lastDateTime->format('Y-m-d H:i:s');
         }
 
         return new JsonResponse($data);

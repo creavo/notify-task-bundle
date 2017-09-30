@@ -3,6 +3,7 @@
 namespace Creavo\NotifyTaskBundle\Repository;
 
 use AppBundle\Entity\User;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * NotificationRepository
@@ -19,6 +20,33 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository {
             ->setParameter('user',$user);
 
         $q->execute();
+    }
+
+    public function totalNotificationsForUser(User $user) {
+
+        /** @var QueryBuilder $qb */
+        $qb=$this->createQueryBuilder('n');
+
+        $qb
+            ->select('COUNT(n)')
+            ->andWhere('n.user = :user')
+            ->setParameter('user',$user);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function totalUnReadNotificationsForUser(User $user) {
+
+        /** @var QueryBuilder $qb */
+        $qb=$this->createQueryBuilder('n');
+
+        $qb
+            ->select('COUNT(n)')
+            ->andWhere('n.user = :user')
+            ->setParameter('user',$user)
+            ->andWhere('n.read = FALSE');
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
 }
