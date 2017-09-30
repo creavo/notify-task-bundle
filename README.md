@@ -69,3 +69,7 @@ create notification:
     // you can also save it with $em directly, but this will not trigger pushover or email-notification
     $em->persist($notification);
     $em->flush();
+
+## todo
+
+* create only one unread notification - system must check, if it already exists and maybe reject the second notification
