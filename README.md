@@ -58,13 +58,13 @@ add to your `config.yml` and adjust to your wishes:
 create notification:
     
     // create notification
-    $notification=$this->get('creavo_notify_task.notification')->createNotification($user, 'this is the message', 'optional title', $relatedEntity);
+    $notification=$this->get('creavo_notify_task.notification')->create($user, 'this is the message', 'optional title', $relatedEntity);
     
     // maybe modify notification further
     $notification->setLinkTitle('Test');
     
     // save it
-    $this->get('creavo_notify_task.notification')->saveNotification($nofitication);
+    $this->get('creavo_notify_task.notification')->save($nofitication);
     
     // you can also save it with $em directly, but this will not trigger pushover or email-notification
     $em->persist($notification);
