@@ -83,14 +83,19 @@ class NotificationProvider {
         }
 
         /** @var Notification $notification */
-        foreach($notifications AS $notification) {
+        foreach($notifications AS $key=>$notification) {
 
-            /** @var User $user */
-            foreach($notification->getUsers() AS $user) {
-                $n=clone $notification;
-                $n->setUser($user);
-                $n->setUsers([]);
-                $notifications[]=$n;
+            if(count($notification->getUsers())>0) {
+
+                /** @var User $user */
+                foreach($notification->getUsers() AS $user) {
+                    $n=clone $notification;
+                    $n->setUser($user);
+                    $n->setUsers([]);
+                    $notifications[]=$n;
+                }
+
+                unset($notifications[$key]);
             }
         }
 
