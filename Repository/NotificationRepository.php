@@ -43,7 +43,7 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository {
         $qb
             ->select('COUNT(n)')
             ->andWhere('n.user = :user')
-            ->andWhere('t.createdAt <= :createdAt')
+            ->andWhere('n.createdAt <= :createdAt')
             ->setParameter('user',$user)
             ->setParameter('createdAt',new \DateTime('now'))
             ->andWhere('n.read IS NULL');
@@ -60,7 +60,7 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository {
             ->andWhere('n.user = :user')
             ->setParameter('user',$user)
             ->andWhere('n.read IS NULL')
-            ->andWhere('t.createdAt <= :createdAt')
+            ->andWhere('n.createdAt <= :createdAt')
             ->setParameter('createdAt',new \DateTime('now'))
             ->orderBy('n.createdAt','desc')
             ->setMaxResults($limit);
