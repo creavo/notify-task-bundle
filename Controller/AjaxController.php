@@ -46,13 +46,8 @@ class AjaxController extends Controller {
         /** @var Task $task */
         foreach($qb->getQuery()->getResult() AS $task) {
             $array=$task->toArray();
-            $array['directLink']=null;
-            $array['redirectLink']=null;
-            if($task->linkable()) {
-                $array['directLink']=$this->generateUrl($task->getLinkRoute(),$task->getLinkRouteParams());
-                $array['redirectLink']=$this->generateUrl('creavo_notify_task_redirect_task',['id'=>$task->getId()]);
-            }
-
+            $array['directLink']=$task->linkable() ? $this->generateUrl($task->getLinkRoute(),$task->getLinkRouteParams()) : null;
+            $array['redirectLink']=$task->linkable() ? $this->generateUrl('creavo_notify_task_redirect_task',['id'=>$task->getId()]) : null;
             $data['items'][]=$array;
         }
 

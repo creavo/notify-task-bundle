@@ -74,7 +74,9 @@ class TaskProvider {
             $tasks=[$tasks];
         }
 
+        /** @var Task $task */
         foreach($tasks AS $task) {
+            $task->createHash();
             $this->em->persist($task);
 
             foreach($task->getTaskRelations() AS $taskRelation) {

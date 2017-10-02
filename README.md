@@ -73,3 +73,4 @@ create notification:
 ## todo
 
 * create only one unread notification - system must check, if it already exists and maybe reject the second notification
+

@@ -47,6 +47,19 @@ class TaskRelation
 
     }
 
+    public function createHash() {
+        $data=[
+            'entityClass'=>$this->getEntityClass(),
+            'entityId'=>$this->getEntityId(),
+        ];
+
+        return md5(json_encode($data));
+    }
+
+    public function getHash() {
+        return $this->createHash();
+    }
+
     public function getId(){
         return $this->id;
     }

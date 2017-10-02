@@ -27,6 +27,8 @@ interface NotifyTaskInterface {
     public function setLinkRouteParams($linkRouteParams);
     public function getLinkTitle();
     public function setLinkTitle($linkTitle);
+    public function getHash();
+    public function setHash($hash);
 
     public function sendViaEmail();
     public function sendViaPushOver();

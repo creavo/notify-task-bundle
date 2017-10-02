@@ -102,6 +102,7 @@ class NotificationProvider {
         /** @var Notification $notification */
         foreach($notifications AS $notification) {
 
+            $notification->createHash();
             $this->em->persist($notification);
 
             foreach ($notification->getNotificationRelations() AS $notificationRelation) {

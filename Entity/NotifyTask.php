@@ -83,6 +83,13 @@ class NotifyTask implements NotifyTaskInterface {
      */
     private $sendViaPushOver=self::SEND_STATUS_DO_NOT_SEND;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hashed_key", type="string", length=32, nullable=true)
+     */
+    private $hash;
+
     public function __construct() {
         $this->createdAt=new \DateTime('now');
     }
@@ -198,5 +205,13 @@ class NotifyTask implements NotifyTaskInterface {
         return $this;
     }
 
+    public function getHash(){
+        return $this->hash;
+    }
 
+    public function setHash($hash){
+        $this->hash = $hash;
+        return $this;
+    }
+    
 }

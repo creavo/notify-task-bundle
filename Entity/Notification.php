@@ -72,6 +72,27 @@ class Notification extends NotifyTask
         ];
     }
 
+    public function createHash() {
+        $data=[
+            'title'=>$this->getTitle(),
+            'message'=>$this->getMessage(),
+            'user'=>$this->getUser() ? $this->getUser()->getId() : null,
+            'linkRoute'=>$this->getLinkRoute(),
+            'linkRouteParams'=>$this->getLinkRouteParams(),
+            'linkTitle'=>$this->getLinkTitle(),
+            'notificationRelations'=>[],
+        ];
+
+        /** @var NotificationRelation $notificationRelation */
+        foreach($this->getNotificationRelations() AS $notificationRelation) {
+            $data['notificationRelations'][]=$notificationRelation->getHash();
+        }
+
+        $hash=md5(json_encode($data));
+        $this->setHash($hash);
+        return $this;
+    }
+
     public function getId(){
         return $this->id;
     }
