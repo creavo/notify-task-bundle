@@ -94,6 +94,20 @@ class NotifyTask implements NotifyTaskInterface {
         $this->createdAt=new \DateTime('now');
     }
 
+    public function toArray() {
+        return [
+            'id'=>null,
+            'title'=>$this->getTitle(),
+            'message'=>$this->getMessage(),
+            'createdAt'=>$this->getCreatedAt() ? $this->getCreatedAt()->format('Y-m-d H:i:s') : null,
+            'user'=>$this->getUser() ? $this->getUser()->getId() : null,
+            'linkRoute'=>$this->getLinkRoute(),
+            'linkRouteParams'=>$this->getLinkRouteParams(),
+            'linkTitle'=>$this->getLinkTitle(),
+            'priority'=>$this->getPriority(),
+        ];
+    }
+
     public function setLink($routeName,$routeParameters=[],$title=null) {
         $this->setLinkRoute($routeName);
         $this->setLinkRouteParams($routeParameters);
@@ -213,5 +227,5 @@ class NotifyTask implements NotifyTaskInterface {
         $this->hash = $hash;
         return $this;
     }
-    
+
 }
