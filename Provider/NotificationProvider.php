@@ -5,6 +5,7 @@ namespace Creavo\NotifyTaskBundle\Provider;
 use AppBundle\Entity\User;
 use Creavo\NotifyTaskBundle\Entity\Notification;
 use Creavo\NotifyTaskBundle\Transport\Dispatcher;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManagerInterface;
 
 class NotificationProvider {
