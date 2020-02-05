@@ -5,11 +5,11 @@ namespace Creavo\NotifyTaskBundle\Provider;
 use AppBundle\Entity\User;
 use Creavo\NotifyTaskBundle\Entity\Notification;
 use Creavo\NotifyTaskBundle\Transport\Dispatcher;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\EntityManagerInterface;
 
 class NotificationProvider {
 
-    /** @var \Doctrine\Common\Persistence\ObjectManager */
+    /** @var EntityManagerInterface */
     protected $em;
 
     /** @var array */
@@ -28,10 +28,10 @@ class NotificationProvider {
      * creates a notification
      *
      * @param User|array $user
-     * @param $message
-     * @param null $title
+     * @param string $message
+     * @param string $title
      * @param array $relations
-     * @param null $linkRoute
+     * @param string $linkRoute
      * @param array $linkRouteParams
      * @param bool $flush
      * @throws \Exception
