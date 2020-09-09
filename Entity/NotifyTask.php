@@ -39,6 +39,13 @@ class NotifyTask implements NotifyTaskInterface {
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      */
+    private $createdBy;
+
+    /**
+     * @var \AppBundle\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
     private $user;
 
     /**
@@ -227,5 +234,17 @@ class NotifyTask implements NotifyTaskInterface {
         $this->hash = $hash;
         return $this;
     }
+
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy($createdBy=null)
+    {
+        $this->createdBy = $createdBy;
+    }
+
+
 
 }

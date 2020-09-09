@@ -38,7 +38,7 @@ class NotificationProvider {
      * @throws \Exception
      * @return Notification
      */
-    public function create($user, $message, $title=null, $relations=[], $linkRoute=null, $linkRouteParams=[], $flush=false) {
+    public function create($user, $message, $title=null, $relations=[], $linkRoute=null, $linkRouteParams=[], $flush=false, User $createdBy=null) {
 
         if(!is_array($relations)) {
             $relations=[$relations];
@@ -49,6 +49,7 @@ class NotificationProvider {
         $notification->setMessage($message);
         $notification->setLinkRoute($linkRoute);
         $notification->setLinkRouteParams($linkRouteParams);
+        $notification->setCreatedBy($createdBy);
 
         if($user instanceof User) {
             $notification->setUser($user);

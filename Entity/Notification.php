@@ -46,6 +46,13 @@ class Notification extends NotifyTask
     private $notificationRelations;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="memory_sent", type="boolean")
+     */
+    private $memorySent=false;
+
+    /**
      * @var User[]
      */
     private $users=[];
@@ -137,6 +144,17 @@ class Notification extends NotifyTask
         $this->users = $users;
         return $this;
     }
+
+    public function isMemorySent()
+    {
+        return $this->memorySent;
+    }
+
+    public function setMemorySent($memorySent)
+    {
+        $this->memorySent = $memorySent;
+    }
+
 
 
 }
