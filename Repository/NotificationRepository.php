@@ -2,7 +2,7 @@
 
 namespace Creavo\NotifyTaskBundle\Repository;
 
-use AppBundle\Entity\User;
+use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 
 /**

@@ -2,7 +2,7 @@
 
 namespace Creavo\NotifyTaskBundle\Controller;
 
-use AppBundle\Entity\User;
+use App\Entity\User;
 use Creavo\NotifyTaskBundle\Entity\Notification;
 use Creavo\NotifyTaskBundle\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

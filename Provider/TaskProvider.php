@@ -2,7 +2,7 @@
 
 namespace Creavo\NotifyTaskBundle\Provider;
 
-use AppBundle\Entity\User;
+use App\Entity\User;
 use Creavo\NotifyTaskBundle\Entity\Task;
 use Creavo\NotifyTaskBundle\Transport\Dispatcher;
 use Doctrine\Bundle\DoctrineBundle\Registry;
