@@ -35,16 +35,16 @@ class NotifyTask implements NotifyTaskInterface {
     private $createdAt;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var \App\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      */
     private $createdBy;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var \App\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      */
     private $user;
 
