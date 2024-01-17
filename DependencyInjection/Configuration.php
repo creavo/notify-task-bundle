@@ -17,8 +17,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('creavo_notify_task');
+        $treeBuilder = new TreeBuilder('creavo_notify_task');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
