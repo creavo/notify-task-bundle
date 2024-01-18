@@ -9,13 +9,16 @@
         <service id="crv.notification" alias="creavo_notify_task.notification"/>
         <service id="crv.task" alias="creavo_notify_task.task"/>
 
-        <service id="creavo_notify_task.notification" class="Creavo\NotifyTaskBundle\Provider\NotificationProvider" public="false">
+        <service id="Creavo\NotifyTaskBundle\Provider\NotificationProvider" alias="creavo_notify_task.notification" />
+        <service id="Creavo\NotifyTaskBundle\Provider\TaskProvider" alias="creavo_notify_task.task" />
+
+        <service id="creavo_notify_task.notification" class="Creavo\NotifyTaskBundle\Provider\NotificationProvider" public="true">
             <argument></argument> <!-- config -->
             <argument type="service" id="doctrine" />
             <argument type="service" id="creavo_notify_task.transport.dispatcher" />
         </service>
 
-        <service id="creavo_notify_task.task" class="Creavo\NotifyTaskBundle\Provider\TaskProvider" public="false">
+        <service id="creavo_notify_task.task" class="Creavo\NotifyTaskBundle\Provider\TaskProvider" public="true">
             <argument></argument> <!-- config -->
             <argument type="service" id="doctrine" />
             <argument type="service" id="creavo_notify_task.transport.dispatcher" />
