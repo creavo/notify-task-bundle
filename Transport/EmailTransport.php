@@ -6,6 +6,8 @@ use Creavo\NotifyTaskBundle\Interfaces\NotifyTaskInterface;
 use Creavo\NotifyTaskBundle\Interfaces\TransportInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Bundle\TwigBundle\TwigEngine;
+use Symfony\Component\Mailer\MailerInterface;
+use Twig\Environment;
 
 class EmailTransport implements TransportInterface {
 
@@ -21,7 +23,7 @@ class EmailTransport implements TransportInterface {
     /** @var TwigEngine */
     protected $twig;
 
-    public function __construct(array $config, Router $router, \Swift_Mailer $swift_Mailer, TwigEngine $twigEngine) {
+    public function __construct(array $config, Router $router, MailerInterface $swift_Mailer, Environment $twigEngine) {
         $this->config=$config;
         $this->router=$router;
         $this->swiftMailer=$swift_Mailer;
