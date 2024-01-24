@@ -32,8 +32,8 @@
         <service id="creavo_notify_task.transport.email" class="Creavo\NotifyTaskBundle\Transport\EmailTransport">
             <argument></argument> <!-- config -->
             <argument type="service" id="router" />
-            <argument type="service" id="swiftmailer.mailer.default" />
-            <argument type="service" id="templating" />
+            <argument type="service" id="mailer.mailer" />
+            <argument type="service" id="twig" />
         </service>
 
         <service id="creavo_notify_task.transport.dispatcher" class="Creavo\NotifyTaskBundle\Transport\Dispatcher">
