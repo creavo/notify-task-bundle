@@ -5,9 +5,9 @@ namespace Creavo\NotifyTaskBundle\Controller;
 use App\Entity\User;
 use Creavo\NotifyTaskBundle\Entity\Notification;
 use Creavo\NotifyTaskBundle\Entity\Task;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class RedirectController extends Controller {
+class RedirectController extends AbstractController {
 
     public function redirectNotificationAction(Notification $notification) {
 

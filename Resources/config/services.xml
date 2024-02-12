@@ -1,9 +1,8 @@
 <?xml version="1.0" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
         <service id="crv.notification" alias="creavo_notify_task.notification"/>
@@ -40,6 +39,14 @@
             <argument></argument> <!-- config -->
             <argument type="service" id="creavo_notify_task.transport.pushover" />
             <argument type="service" id="creavo_notify_task.transport.email" />
+        </service>
+
+        <service id="Creavo\NotifyTaskBundle\Controller\RedirectController" public="true">
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="Creavo\NotifyTaskBundle\Controller\AjaxController" public="true">
+            <tag name="controller.service_arguments"/>
         </service>
     </services>
 

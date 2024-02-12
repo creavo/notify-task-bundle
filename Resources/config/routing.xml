@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <routes xmlns="http://symfony.com/schema/routing"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="creavo_notify_task_ajax_user_tasks" path="/ajax/user/tasks">
-        <default key="_controller">CreavoNotifyTaskBundle:Ajax:userTasks</default>
+        <default key="_controller">Creavo\NotifyTaskBundle\Controller\AjaxController::userTasksAction</default>
     </route>
 
     <route id="creavo_notify_task_ajax_user_notifications" path="/ajax/user/notifications">
-        <default key="_controller">CreavoNotifyTaskBundle:Ajax:userNotifications</default>
+        <default key="_controller">Creavo\NotifyTaskBundle\Controller\AjaxController::userNotificationsAction</default>
     </route>
 
     <route id="creavo_notify_task_redirect_notification" path="/redirect/notification/{id}">
-        <default key="_controller">CreavoNotifyTaskBundle:Redirect:redirectNotification</default>
+        <default key="_controller">Creavo\NotifyTaskBundle\Controller\RedirectController::redirectNotificationAction</default>
     </route>
 
     <route id="creavo_notify_task_redirect_task" path="/redirect/task/{id}">
-        <default key="_controller">CreavoNotifyTaskBundle:Redirect:redirectTask</default>
+        <default key="_controller">Creavo\NotifyTaskBundle\Controller\RedirectController::redirectTaskAction</default>
     </route>
 </routes>
